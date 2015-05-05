@@ -1,27 +1,41 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe 'GET' do
-  it 'return contents of data' do
-    expect(Database.instance.get).to eq File.read('data')
-  end
-end
+describe Database do
 
-describe 'POST' do
-  it 'return contents of data with posted one' do
-    content = File.read('data')
-    expect(Database.instance.post("test")).to eq content + "test"
+  describe 'GET' do
+    it 'return contents of data' do
+      content = File.read('data')
+      expect(Database.instance.get).to eq content
+      # empty case
+      File.unlink('data')
+      expect(Database.instance.get).to eq ''
+    end
   end
-end
 
-describe 'PUT' do
-  it 'return posted body' do
-    expect(Database.instance.put("test")).to eq "test"
+  describe 'POST' do
+    it 'return contents of data with posted one' do
+      # empty case
+      File.unlink('data')
+      expect(Database.instance.post('hoge')).to eq 'hoge'
+      # adding words to existing contents
+      content = File.read('data')
+      expect(Database.instance.post('foo')).to eq content + 'foo'
+      content = File.read('data')
+      expect(Database.instance.post('bar')).to eq content + 'bar'
+    end
   end
-end
 
-describe 'DELETE' do
-  it 'return empty array' do
-    expect(Database.instance.delete).to eq ''
+  describe 'PUT' do
+    it 'return posted body' do
+      expect(Database.instance.put('test')).to eq 'test'
+    end
   end
+
+  describe 'DELETE' do
+    it 'return empty array' do
+      expect(Database.instance.delete).to eq ''
+    end
+  end
+
 end

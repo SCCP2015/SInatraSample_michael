@@ -1,9 +1,5 @@
 # Usage
 
-## bundle install
-
-      bundle install --path vendor/bundle --without production
-   
 ## launch application
  
       bundle exec rackup -o 0.0.0.0
@@ -12,4 +8,10 @@
       
       http://localhost:9292/
       $ curl http://localhost:9292/ 
+
+# RSpec
+
+## execute
+
+	bundle exec rake
 

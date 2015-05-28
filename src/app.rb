@@ -1,6 +1,5 @@
 # coding: utf-8
 require 'sinatra/base'
-require 'sinatra/json'
 require 'sinatra/reloader'
 require 'data_mapper'
 require_relative 'word'
@@ -15,38 +14,30 @@ class MainApp < Sinatra::Base
     register Sinatra::Reloader
   end
   get '/words' do
-    json(Word.all)
+    words = Word.all.map do |w|
+      w.id.to_s + ": #{w.msg}"
+    end
+    words.join(',')
   end
   get '/words/:id' do
     id = params[:id]
-    word = Word.get(id)
+    word = Word.get[:id]
     if word.nil?
-      json(error: "id:#{id} is not found.")
+      "Record of id: #{jd} is not found."
     else
-      json(word)
+      word.id.to_s + ": #{word.msg}"
     end
   end
   post '/words' do
-    Word.create(msg: request.body.gets).id.to_json
+    # bodyの文字列をmsgとして、新しいwordレコードを一件追加。
+    # レスポンスとして追加時のレコードのidを返す。
   end
   put '/words/:id' do
-    id = params[:id]
-    word = Word.get(id)
-    if word.nil?
-      json(false)
-    else
-      word.update(msg: request.body.gets)
-      json(true)
-    end
+    # パラメータidに対応するwordsテーブルのレコード一件を更新。
+    # 成功した場合、"true" 失敗した場合、"false"をレスポンスとして返す。
   end
   delete '/words/:id' do
-    id = params[:id]
-    word = Word.get(id)
-    if word.nil?
-      json(false)
-    else
-      json(word.destroy)
-    end
+    # パラメータidに対応するwordsテーブルのレコード一件を削除。
+    # 成功した場合、"true" 失敗した場合、"false"をレスポンスとして返す。
   end
 end
-

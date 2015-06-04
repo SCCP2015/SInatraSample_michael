@@ -17,27 +17,38 @@ class MainApp < Sinatra::Base
     words = Word.all.map do |w|
       w.id.to_s + ": #{w.msg}"
     end
-    words.join(',')
+    words.join(', ')
   end
   get '/words/:id' do
     id = params[:id]
-    word = Word.get[:id]
+    word = Word.get(id)
     if word.nil?
-      "Record of id: #{jd} is not found."
+      "Record of id: #{id} is not found."
     else
       word.id.to_s + ": #{word.msg}"
     end
   end
   post '/words' do
-    # bodyの文字列をmsgとして、新しいwordレコードを一件追加。
-    # レスポンスとして追加時のレコードのidを返す。
+    word = Word.create(msg: request.body.gets)
+    word.id.to_s
   end
   put '/words/:id' do
-    # パラメータidに対応するwordsテーブルのレコード一件を更新。
-    # 成功した場合、"true" 失敗した場合、"false"をレスポンスとして返す。
+    id = params[:id]
+    word = Word.get(id)
+    if word.nil?
+      'false'
+    else
+      word.update(msg: request.body.gets)
+      'true'
+    end
   end
   delete '/words/:id' do
-    # パラメータidに対応するwordsテーブルのレコード一件を削除。
-    # 成功した場合、"true" 失敗した場合、"false"をレスポンスとして返す。
+    id = params[:id]
+    word = Word.get(id)
+    if word.nil?
+      'false'
+    else
+      word.destroy.to_s
+    end
   end
 end

@@ -18,47 +18,20 @@ class MainApp < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end
-#  get '/' do
-#    "value = " << session[:value].inspect
-#  end
-#  get '/:value' do
-#    session[:value] = paramp['value']
-#  end
+
   get '/' do
     erb :index
   end
-#  get '/words/:id' do
-#    id = params[:id]
-#    word = Word.get(id)
-#    if word.nil?
-#      "Record of id: #{id} is not found."
-#    else
-#      word.id.to_s + ": #{word.msg}"
-#    end
-#  end
+
+  get '/userlist.erb' do
+    erb :userlist
+  end
+
   post '/' do
     Word.create(msg: params["ex_text"], uid: "sample")
     Word.all.map do |w|
       w.id.to_s + ": #{w.uid} [#{w.msg}]\n"
     end
   end
-#  put '/words/:id' do
-#    id = params[:id]
-#    word = Word.get(id)
-#    if word.nil?
-#      'false'
-#    else
-#      word.update(msg: request.body.gets)
-#      'true'
-#    end
-#  end
-#  delete '/words/:id' do
-#    id = params[:id]
-#    word = Word.get(id)
-#    if word.nil?
-#      'false'
-#    else
-#      word.destroy.to_s
-#    end
-#  end
+
 end

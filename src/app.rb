@@ -31,20 +31,23 @@ class MainApp < Sinatra::Base
 
   post '/' do
     user = User.first(:uid => params["uid"])
-    if user.nil?
-      User.create(uid: params["uid"], pass: params["pass"])
-      Word.create(msg: params["ex_text"], uid: params["uid"])
-      @Obj = Word.all
-      erb :index
+    if params["uid"]=='' || params["msg"]=='' || params["pass"]==''
+      erb :error
     else
-      if user.pass == params["pass"]
-        Word.create(msg: params["ex_text"], uid: params["uid"])
+      if user.nil?
+        User.create(uid: params["uid"], pass: params["pass"])
+        Word.create(msg: params["msg"], uid: params["uid"])
         @Obj = Word.all
         erb :index
       else
-        erb :error
+        if user.pass == params["pass"]
+          Word.create(msg: params["msg"], uid: params["uid"])
+          @Obj = Word.all
+          erb :index
+        else
+          erb :error
+        end
       end
     end
   end
-
 end

@@ -20,17 +20,30 @@ class MainApp < Sinatra::Base
   end
 
   get '/' do
+    @Obj = Word.all
     erb :index
   end
 
   get '/userlist.erb' do
+    @Obj = User.all
     erb :userlist
   end
 
   post '/' do
-    Word.create(msg: params["ex_text"], uid: "sample")
-    Word.all.map do |w|
-      w.id.to_s + ": #{w.uid} [#{w.msg}]\n"
+    user = User.first(:uid => params["uid"])
+    if user.nil?
+      User.create(uid: params["uid"], pass: params["pass"])
+      Word.create(msg: params["ex_text"], uid: params["uid"])
+      @Obj = Word.all
+      erb :index
+    else
+      if user.pass == params["pass"]
+        Word.create(msg: params["ex_text"], uid: params["uid"])
+        @Obj = Word.all
+        erb :index
+      else
+        erb :error
+      end
     end
   end
 

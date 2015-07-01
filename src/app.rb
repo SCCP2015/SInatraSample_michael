@@ -2,15 +2,13 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'data_mapper'
-#require_relative 'word'
-require_relative 'word2'
+require_relative 'data'
 require 'sinatra'
 
 #enable :sessions
 
 DataMapper::Logger.new($stdout, :debug)
-#DataMapper.setup(:default, 'postgres://vagrant:vagrant@localhost/myapp')
-DataMapper.setup(:default, 'postgres://vagrant:vagrant@localhost/myapp2')
+DataMapper.setup(:default, 'postgres://vagrant:vagrant@localhost/twitter')
 
 # Sinatra Main controller
 class MainApp < Sinatra::Base

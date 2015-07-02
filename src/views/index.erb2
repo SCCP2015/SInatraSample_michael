@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="Shift-JIS">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Twitter</title>
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
+  <body>
+
+    <!-- header -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hogetter in Aizu</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="#">Reload</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#twtModal"><img src="glyphicons/glyphicons-151-edit.png">Tweet</button></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+<div class="modal fade" id="twtModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- body -->
+    <div class="container-fluid">
+      <div class="row">
+
+        <!-- left side -->
+        <div class="col-sm-3 sidebar" style="background-color:gray;">
+          <h3 class="sub-header">Tweet now!!</h3>
+          <div class="submit">
+            <form method="post" id="ex-form" enctype="multipart/form-data">
+              <form class="form-horizontal">
+                <fieldset>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputID">ID</label>
+                    <div class="col-lg-10">
+                      <input class="form-control" id="inputID" name="uid" type="text" placeholder="ID">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputPassword">Password</label>
+                    <div class="col-lg-10">
+                      <input class="form-control" id="inputPassword" name="pass" type="password" placeholder="Password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label" for="textArea">Text</label>
+                    <div class="col-lg-10">
+                      <textarea class="form-control" id="textArea" name="msg" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                      <button class="btn btn-default" type="reset">Clear</button>
+                      <button class="btn btn-primary" type="submit">Tweet</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+          </div>
+          <br />
+          <br />
+          <hr />
+          <center><font size="5"><a href="./userlist.erb">User List</a></font></center>
+          <hr />
+        </div>
+
+        <!-- right side -->
+        <div class="col-sm-9 col-sm-offset-3 main">
+
+          <h2 class="sub-header">Timeline</h2>
+
+          <p>
+
+
+          <div class="list-group">
+            <% @Obj.reverse_each do |posts| %>
+              <a class="list-group-item" href="#">
+                <h4 class="list-group-item-heading"><%= posts["uid"] %></h4>
+                <p class="list-group-item-text"><%= posts["msg"]%></p>
+              </a>
+            <% end %>
+          </div>
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script src="jquery.autosize.js" type="text/javascript"></script>
+    <script>
+$(window).bind("resize ready", function (event) {
+  $('#Content').height(
+      $('#Content').height() +
+      $(window).height() -
+      $(document.body).height()
+      );
+});
+    </script>
+  </body>
+</html>

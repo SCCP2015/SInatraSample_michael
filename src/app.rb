@@ -5,6 +5,8 @@ require 'data_mapper'
 require_relative 'data'
 require 'sinatra'
 
+set :public_folder, File.dirname(__FILE__) + '/public'
+
 #enable :sessions
 
 DataMapper::Logger.new($stdout, :debug)
